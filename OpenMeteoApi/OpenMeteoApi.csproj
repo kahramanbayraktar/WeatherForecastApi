@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenMeteoApi.Entities\OpenMeteoApi.Entities.csproj" />
+    <ProjectReference Include="..\OpenMeteoApi.Domain\OpenMeteoApi.Domain.csproj" />
+    <ProjectReference Include="..\OpenMeteoApi.Mediator\OpenMeteoApi.Mediator.csproj" />
   </ItemGroup>
 
 </Project>

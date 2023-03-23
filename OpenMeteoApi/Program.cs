@@ -1,4 +1,3 @@
-
 namespace OpenMeteoApi
 {
     public class Program
@@ -13,6 +12,9 @@ namespace OpenMeteoApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // TODO: Free MediatR registration from dependency on Services.Index class.
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Mediator.Index).Assembly));
 
             var app = builder.Build();
 

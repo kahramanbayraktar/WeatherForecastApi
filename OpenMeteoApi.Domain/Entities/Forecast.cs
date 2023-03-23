@@ -1,4 +1,7 @@
-﻿namespace OpenMeteoApi.Entities
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+
+namespace OpenMeteoApi.Domain.Entities
 {
     public class Forecast
     {
@@ -7,9 +10,12 @@
         public Hourly Hourly { get; set; }
     }
 
+    [DataContract]
     public class Hourly
     {
         public DateTimeOffset[] Time { get; set; }
-        public decimal[] Temperature { get; set;}
+
+        [JsonPropertyName("temperature_2m")]
+        public decimal[] Temperature { get; set; } // TODO: Rename
     }
 }
