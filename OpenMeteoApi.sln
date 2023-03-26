@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMeteoApi.Mediator", "Op
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMeteoApi.Domain", "OpenMeteoApi.Domain\OpenMeteoApi.Domain.csproj", "{1D803E58-0F99-4BAB-8F2F-CEC1EC80F032}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMeteoApi.Utils", "OpenMeteoApi.Utils\OpenMeteoApi.Utils.csproj", "{53A9DC38-D882-4243-8FCC-37775018B743}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1D803E58-0F99-4BAB-8F2F-CEC1EC80F032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D803E58-0F99-4BAB-8F2F-CEC1EC80F032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D803E58-0F99-4BAB-8F2F-CEC1EC80F032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A9DC38-D882-4243-8FCC-37775018B743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A9DC38-D882-4243-8FCC-37775018B743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A9DC38-D882-4243-8FCC-37775018B743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A9DC38-D882-4243-8FCC-37775018B743}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

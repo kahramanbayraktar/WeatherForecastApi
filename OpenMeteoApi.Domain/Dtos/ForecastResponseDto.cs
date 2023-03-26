@@ -1,4 +1,6 @@
-﻿namespace OpenMeteoApi.Domain.Dtos
+﻿using OpenMeteoApi.Domain.Entities;
+
+namespace OpenMeteoApi.Domain.Dtos
 {
     public class ForecastResponseDto
     {
@@ -15,6 +17,12 @@
         public decimal Latitude { get; }
         public decimal Longitude { get; }
         public ForecastValue[] Values { get; set; }
+
+        public static explicit operator ForecastResponseDto(Forecast forecast)
+        {
+            return new ForecastResponseDto(forecast.Latitude, forecast.Longitude, forecast.Hourly.Time,
+                forecast.Hourly.Temperature);
+        }
     }
 
     public class ForecastValue
