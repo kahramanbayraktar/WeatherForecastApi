@@ -20,8 +20,8 @@ namespace OpenMeteoApi.Domain.Dtos
 
         public static explicit operator ForecastResponseDto(Forecast forecast)
         {
-            return new ForecastResponseDto(forecast.Latitude, forecast.Longitude, forecast.Hourly.Time,
-                forecast.Hourly.Temperature);
+            return new ForecastResponseDto(forecast.Latitude, forecast.Longitude, forecast.Values.Time,
+                forecast.Values.Temperature);
         }
     }
 

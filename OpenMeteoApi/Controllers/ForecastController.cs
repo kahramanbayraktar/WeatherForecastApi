@@ -1,5 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OpenMeteoApi.Domain.Dtos;
+using OpenMeteoApi.Domain.Entities;
+using OpenMeteoApi.Mediator.Commands;
 using OpenMeteoApi.Mediator.Queries;
 
 namespace OpenMeteoApi.Controllers
@@ -18,10 +21,26 @@ namespace OpenMeteoApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(decimal lat, decimal lon)
         {
+            // Query MongoDB
             GetForecastsQuery query = new(lat, lon);
-            var result = await _mediator.Send(query);
+            var forecastResponseDto = await _mediator.Send(query);
 
-            return Ok(result);
+            if (forecastResponseDto == null)
+            {
+                // Query MeteoAPI
+                GetOpenMeteoForecastsQuery queryOpenMeteo = new(lat, lon);
+                var openMeteoForecast = await _mediator.Send(queryOpenMeteo);
+
+                var forecast = (Forecast)openMeteoForecast;
+
+                // Save to MongoDB
+                InsertForecastCommand command = new(forecast);
+                var inserted = await _mediator.Send(command);
+
+                forecastResponseDto = (ForecastResponseDto)forecast;
+            }
+
+            return Ok(forecastResponseDto);
         }
     }
 }

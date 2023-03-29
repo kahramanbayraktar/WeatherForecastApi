@@ -8,8 +8,8 @@ namespace OpenMeteoApi.Domain.Extensions
         // TODO: Not in use at the moment.
         public static ForecastResponseDto MapTo(this Forecast forecast)
         {
-            return new ForecastResponseDto(forecast.Latitude, forecast.Longitude, forecast.Hourly.Time,
-                forecast.Hourly.Temperature);
+            return new ForecastResponseDto(forecast.Latitude, forecast.Longitude, forecast.Values.Time,
+                forecast.Values.Temperature);
         }
     }
 }

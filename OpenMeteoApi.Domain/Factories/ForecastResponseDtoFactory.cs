@@ -10,8 +10,8 @@ namespace OpenMeteoApi.Domain.Factories
         {
             var forecastResponseDto = new ForecastResponseDto(
                 forecast.Latitude, forecast.Longitude,
-                forecast.Hourly.Time,
-                forecast.Hourly.Temperature);
+                forecast.Values.Time,
+                forecast.Values.Temperature);
 
             return forecastResponseDto;
         }
