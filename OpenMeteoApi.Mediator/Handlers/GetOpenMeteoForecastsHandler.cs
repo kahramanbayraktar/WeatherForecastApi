@@ -7,11 +7,17 @@ namespace OpenMeteoApi.Mediator.Handlers
 {
     public class GetOpenMeteoForecastsHandler : IRequestHandler<GetOpenMeteoForecastsQuery, OpenMeteoForecastDto>
     {
+        private readonly IOpenMeteoForecastServices _openMeteoForecastServices;
+
+        public GetOpenMeteoForecastsHandler(IOpenMeteoForecastServices openMeteoForecastServices)
+        {
+            _openMeteoForecastServices = openMeteoForecastServices;
+        }
+
         public async Task<OpenMeteoForecastDto> Handle(GetOpenMeteoForecastsQuery request, CancellationToken cancellationToken)
         {
             // Get forecast from OpenMeteoAPI
-            OpenMeteoForecastServices services = new();
-            var forecast = await services.GetForecast(request.Latitude, request.Longitude);
+            var forecast = await _openMeteoForecastServices.GetForecast(request.Latitude, request.Longitude);
             return forecast;
         }
     }

@@ -22,6 +22,8 @@ namespace OpenMeteoApi.Controllers
         public async Task<IActionResult> Get(decimal lat, decimal lon)
         {
             // Query MongoDB
+            // (We assume that the data in MongoDB is always up-to-date.
+            // It would normally require another app to get the actual data into our database. We skip this work as it is out of this project's scope.)
             GetForecastsQuery query = new(lat, lon);
             var forecastResponseDto = await _mediator.Send(query);
 

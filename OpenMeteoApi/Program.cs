@@ -1,3 +1,6 @@
+using OpenMeteoApi.Domain.Models;
+using OpenMeteoApi.Services.OpenMeteoAPI;
+
 namespace OpenMeteoApi
 {
     public class Program
@@ -15,6 +18,9 @@ namespace OpenMeteoApi
 
             // TODO: Free MediatR registration from dependency on Services.Index class.
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Mediator.Index).Assembly));
+
+            builder.Services.Configure<OpenMeteoApiConfigModel>(builder.Configuration.GetSection("OpenMeteoApi"));
+            builder.Services.AddSingleton<IOpenMeteoForecastServices, OpenMeteoForecastServices>();
 
             var app = builder.Build();
 
