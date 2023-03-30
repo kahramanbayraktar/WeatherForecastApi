@@ -7,11 +7,17 @@ namespace WeatherForecastApi.Mediator.Handlers
 {
     public class GetForecastsHandler : IRequestHandler<GetForecastsQuery, ForecastResponseDto>
     {
+        private readonly IMongoForecastServices _mongoForecastServices;
+
+        public GetForecastsHandler(IMongoForecastServices mongoForecastServices)
+        {
+            _mongoForecastServices = mongoForecastServices;
+        }
+
         public async Task<ForecastResponseDto> Handle(GetForecastsQuery request, CancellationToken cancellationToken)
         {
             // Get forecast from MongoDb
-            MongoForecastServices services = new();
-            var forecast = await services.GetForecast(request.Latitude, request.Longitude, new DateTimeOffset());
+            var forecast = await _mongoForecastServices.GetForecast(request.Latitude, request.Longitude, new DateTimeOffset());
             
             if (forecast == null) return null!;
 

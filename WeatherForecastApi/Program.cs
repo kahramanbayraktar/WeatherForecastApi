@@ -1,4 +1,5 @@
 using WeatherForecastApi.Domain.Models;
+using WeatherForecastApi.Services.Mongo;
 using WeatherForecastApi.Services.OpenMeteoAPI;
 
 namespace WeatherForecastApi
@@ -20,7 +21,10 @@ namespace WeatherForecastApi
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Mediator.Index).Assembly));
 
             builder.Services.Configure<OpenMeteoApiConfigModel>(builder.Configuration.GetSection("OpenMeteoApi"));
+            builder.Services.Configure<MongoDbConfigModel>(builder.Configuration.GetSection("MongoDB"));
+            
             builder.Services.AddSingleton<IOpenMeteoForecastServices, OpenMeteoForecastServices>();
+            builder.Services.AddSingleton<IMongoForecastServices, MongoForecastServices>();
 
             var app = builder.Build();
 

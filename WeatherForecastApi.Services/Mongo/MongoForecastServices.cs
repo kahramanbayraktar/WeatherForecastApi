@@ -1,38 +1,40 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using WeatherForecastApi.Domain.Entities;
+using WeatherForecastApi.Domain.Models;
 
 namespace WeatherForecastApi.Services.Mongo
 {
-    public class MongoForecastServices
+    public class MongoForecastServices : IMongoForecastServices
     {
-        public async Task<Forecast> GetForecast(decimal lat, decimal lon, DateTimeOffset date)
+        private readonly IOptionsMonitor<MongoDbConfigModel> _mongoDbOptions;
+        private readonly IMongoCollection<Forecast> _forecasts;
+
+        public MongoForecastServices(IOptionsMonitor<MongoDbConfigModel> mongoDbOptions)
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://forecastadmin:vM8SfUYk9RVlV36n@cluster0.6mda7f5.mongodb.net/?retryWrites=true&w=majority");
+            _mongoDbOptions = mongoDbOptions;
+
+            var settings = MongoClientSettings.FromConnectionString(_mongoDbOptions.CurrentValue.ConnectionString);
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
-            var database = client.GetDatabase("OpenMeteo");
+            var database = client.GetDatabase(_mongoDbOptions.CurrentValue.Database);
 
-            var forecasts = database.GetCollection<Forecast>("Forecasts");
+            _forecasts = database.GetCollection<Forecast>(_mongoDbOptions.CurrentValue.ForecastCollection);
+        }
 
+        public async Task<Forecast> GetForecast(decimal lat, decimal lon, DateTimeOffset date)
+        {
             var builder = Builders<Forecast>.Filter;
             var filter = builder.Eq(x => x.Latitude, lat);
 
-            var doc = await forecasts.FindAsync(filter).Result.FirstOrDefaultAsync();
-            //var doc = forecasts.Find(_ => true).FirstOrDefault();
+            var doc = await _forecasts.FindAsync(filter).Result.FirstOrDefaultAsync();
 
             return doc;
         }
 
         public async Task<bool?> SaveForecast(Forecast forecast)
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://forecastadmin:vM8SfUYk9RVlV36n@cluster0.6mda7f5.mongodb.net/?retryWrites=true&w=majority");
-            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            var client = new MongoClient(settings);
-            var database = client.GetDatabase("OpenMeteo");
-
-            var forecasts = database.GetCollection<Forecast>("Forecasts");
-
-            await forecasts.InsertOneAsync(forecast);
+            await _forecasts.InsertOneAsync(forecast);
 
             return true;
         }
